@@ -837,7 +837,8 @@ def install_wheel(project_names, py_executable, search_dirs=None,
         search_dirs = file_search_dirs()
 
     wheels = find_wheels(['setuptools', 'pip'], search_dirs)
-    pythonpath = os.pathsep.join(wheels)
+    dynload_dirs = [d for d in sys.path if d.endswith('/lib-dynload')]
+    pythonpath = os.pathsep.join(wheels + dynload_dirs)
 
     # PIP_FIND_LINKS uses space as the path separator and thus cannot have paths
     # with spaces in them. Convert any of those to local file:// URL form.
